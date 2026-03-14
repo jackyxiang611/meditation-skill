@@ -20,6 +20,9 @@ This repo is GitHub-friendly by default:
 ## Outputs
 - Final audio: `outputs/meditation-*.mp3`
 
+## Sample
+- 10-min sleep meditation (mp3): [`samples/sample-sleep-10min.mp3`](samples/sample-sleep-10min.mp3)
+
 > `outputs/` and `tmp/` are intentionally ignored by git.
 
 ---
