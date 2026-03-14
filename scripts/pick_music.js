@@ -1,6 +1,11 @@
 #!/usr/bin/env node
 /**
- * Pick a background music track from assets/audio/music.json.
+ * Pick a background music track from the music mapping json.
+ *
+ * Priority (GitHub-friendly):
+ *   1) assets/audio/music.local.json  (your full local library; NOT committed)
+ *   2) assets/audio/music.sample.json (ships with this repo)
+ *   3) assets/audio/music.json        (legacy/back-compat)
  *
  * Usage:
  *   node scripts/pick_music.js --label "大自然河流"
@@ -33,7 +38,23 @@ const seed = arg('seed') || new Date().toISOString().slice(0, 10);
 
 const root = path.resolve(__dirname, '..');
 const audioDir = path.join(root, 'assets', 'audio');
-const musicJsonPath = path.join(audioDir, 'music.json');
+function firstExisting(paths) {
+  for (const p of paths) {
+    if (fs.existsSync(p)) return p;
+  }
+  return null;
+}
+
+const musicJsonPath = firstExisting([
+  path.join(audioDir, 'music.local.json'),
+  path.join(audioDir, 'music.sample.json'),
+  path.join(audioDir, 'music.json')
+]);
+
+if (!musicJsonPath) {
+  console.error('No music mapping file found. Expected one of: music.local.json / music.sample.json / music.json');
+  process.exit(2);
+}
 
 const data = JSON.parse(fs.readFileSync(musicJsonPath, 'utf8'));
 const list = Array.isArray(data.music) ? data.music : [];
