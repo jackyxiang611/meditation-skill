@@ -1,0 +1,12 @@
+# build artifacts
+tmp/
+outputs/
+
+# secrets
+.env
+
+# local-only music library mapping
+assets/audio/music.local.json
+
+# OS
+.DS_Store
